@@ -1,4 +1,0 @@
-<launch>
-<param name="use_sim_time" value="true" />
-<node pkg="hardware" type="move_robot.py" name="move_robot" output="screen"/>
-</launch>

@@ -11,7 +11,6 @@ class ComportMainboard(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
-        print("Hello")
 
     def open(self):
         try:
@@ -27,7 +26,7 @@ class ComportMainboard(threading.Thread):
                     self.connection_opened = self.connection.isOpen()
                     time.sleep(0.5)
                 self.connection.flush()
-                print("mainboard: Port opened successfully")
+                print "mainboard: Port opened successfully"
             except Exception as e:
                 print(e)
                 continue
