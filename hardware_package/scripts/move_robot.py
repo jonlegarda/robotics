@@ -1,12 +1,9 @@
-import serial
+#! /usr/bin/env python
+
 import rospy
-import hardware_package.communication_mainboard as cm
-from communication_mainboard.py import ComportMainboard
+from hardware_package.communication_mainboard import ComportMainboard
 
 if __name__ == '__main__':
 	mainboard_runner = ComportMainboard()
 	mainboard_runner.run()
 	mainboard_runner.write("r/n")
-       	 # mainboard_runner.close()
-
-
