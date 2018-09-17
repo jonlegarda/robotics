@@ -37,6 +37,9 @@ class ComportMainboard(threading.Thread):
         if self.connection is not None:
             try:
                 self.connection.write(comm + '\n')
+		c = ''
+		while c != '\n':
+		   c = self.connection.read()
             except:
                 print('mainboard: err write ' + comm)
 

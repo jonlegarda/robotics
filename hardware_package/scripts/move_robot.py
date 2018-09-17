@@ -23,7 +23,7 @@ class MainboardRunner():
 	    #self.board.write("r/n")
 	    # This line below is supposed to make the robot move by activating 
 	    # a couple of wheels and make them move.
-	    self.board.write("sd:20:20:0:0")
+	    self.board.write("sd:-20:20:0:0")
             rate.sleep()
         print "closing board"
         self.board.close()
