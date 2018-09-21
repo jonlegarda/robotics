@@ -3,6 +3,8 @@ import rospy
 import cv2
 import pyrealsense2 as rs
 import numpy as np
+# own packages
+#from image_processing_package.image_colors import detector
 
 class RealsenseProcessing():
     def __init__(self):
@@ -47,7 +49,8 @@ if __name__ == '__main__':
 	while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
-            print(test.shape)
+	    print()
+	    #print(test.shape)
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
