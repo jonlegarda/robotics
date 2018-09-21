@@ -4,6 +4,7 @@ import cv2
 import pyrealsense2 as rs
 import numpy as np
 # own packages
+from std_msgs.msg import String
 from image_processing_package.image_colors import Detector
 
 class RealsenseProcessing():
@@ -15,7 +16,7 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-
+	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
     def run(self):
         self.pipeline = rs.pipeline()
         config = rs.config()
@@ -51,12 +52,14 @@ if __name__ == '__main__':
             test = np.array(camera_proc.hsv)
 	    detector = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
 	    cap = None
-	    a,b,c,d,e,f = detector.detect(camera_proc.hsv, camera_proc.regular_image)
+	    a,b,x,y,e,f = detector.detect(camera_proc.hsv, camera_proc.regular_image)
 	    print("res: ", a)
 	    print("mask: ", b)
-	    print("cx:", c)
-	    print("cy: ", d)
+	    print("cx:", x)
+	    print("cy: ", y)
 	    print("contour_area: ", e)
+	    if (c<10 and c>-10):
+		publisher.publish(BallPoint(x,y,0))
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
