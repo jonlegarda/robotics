@@ -1,6 +1,17 @@
+<<<<<<< HEAD
 #!/usr/bin/env python
 import rospy
 import cv2
+=======
+## License: Apache 2.0. See LICENSE file in root directory.
+## Copyright(c) 2017 Intel Corporation. All Rights Reserved.
+# JON LEGARDA GONZALEZ
+#####################################################
+##              Align Depth to Color               ##
+#####################################################
+
+# First import the library
+>>>>>>> ea5f6e9b49bca5f0debfdcf4d1ebe540855ded39
 import pyrealsense2 as rs
 import numpy as np
 
