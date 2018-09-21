@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-class detector:
+class Detector:
     def __init__(self, colorConfig, name):
         self.name = name
         f = open(colorConfig)
