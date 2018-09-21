@@ -6,6 +6,7 @@ import numpy as np
 # own packages
 from std_msgs.msg import String
 from image_processing_package.image_colors import Detector
+from image_processing_package.msg import BallPoint
 
 class RealsenseProcessing():
     def __init__(self):
@@ -16,7 +17,8 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+	    self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+    
     def run(self):
         self.pipeline = rs.pipeline()
         config = rs.config()
@@ -48,8 +50,8 @@ if __name__ == '__main__':
         camera_proc.run()
 	rate = rospy.Rate(60)
 	while not rospy.is_shutdown():
-            camera_proc.get_frame()
-            test = np.array(camera_proc.hsv)
+        camera_proc.get_frame()
+        test = np.array(camera_proc.hsv)
 	    detector = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
 	    cap = None
 	    a,b,x,y,e,f = detector.detect(camera_proc.hsv, camera_proc.regular_image)
@@ -59,7 +61,7 @@ if __name__ == '__main__':
 	    print("cy: ", y)
 	    print("contour_area: ", e)
 	    if (c<10 and c>-10):
-		publisher.publish(BallPoint(x,y,0))
+		camera_proc.publisher.publish(BallPoint(x,y,0))
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
