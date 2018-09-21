@@ -4,7 +4,7 @@ import cv2
 import pyrealsense2 as rs
 import numpy as np
 # own packages
-#from image_processing_package.image_colors import detector
+from image_processing_package.image_colors import detector
 
 class RealsenseProcessing():
     def __init__(self):
@@ -49,8 +49,10 @@ if __name__ == '__main__':
 	while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
-	    print()
-	    #print(test.shape)
+	    detector = detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
+	    cap = None
+	    a = detector.detect(camera_proc.hsv, camera_proc.regular_image)
+	    print(a)
             rate.sleep()
     except rospy.ROSInterruptException:
         pass

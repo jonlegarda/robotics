@@ -14,13 +14,13 @@ class detector:
         self.maxint = int(f.readline())
         f.close()
 
-    def detect(self, cap):
+    def detect(self, hsv, frame):
         cx = -1
         cy = -1
         contour_area = -1
         w = -1
-        _, frame = cap.read()
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        #_, frame = cap.read()
+        #hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         # Threshold the HSV image to get only necessary colors
         lowerColor = np.array([self.minhue, self.minsat, self.minint])
         upperColor = np.array([self.maxhue, self.maxsat, self.maxint])
