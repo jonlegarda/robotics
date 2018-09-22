@@ -2,8 +2,4 @@
 <param name="use_sim_time"  value="false" />
 <node pkg="game_logic_package" type="game_logic_package_main.py" name="game_logic_package_main" 
 output="screen"/>
-<node pkg="image_processing_package" type="test_camera.py" name="test_camera"
-output="screen"/>
-<node pkg="hardwar_packagee" type="communication_mainboard.py" name="communication_mainboard" 
-output="screen"/>
 </launch>
