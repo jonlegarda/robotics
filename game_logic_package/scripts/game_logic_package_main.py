@@ -6,8 +6,6 @@ from hardware_package.communication_mainboard import ComportMainboard
 from image_processing_package.msg import BallPoint
 from general_package.msg import MoveSpeed
 
-# class is for
-
 class GameLogic():
 
 	def __init__(self):
@@ -18,7 +16,7 @@ class GameLogic():
 
 	def callback(self, ballPoint):
 		print(str(ballPoint))
-		if (ballPoint.x < 380 and ballPoint.x > 260):
+		if (ballPoint.x < 350 and ballPoint.x > 290):
 			print("- STOP ROBOT! -")
 			self.speed_pub.publish(MoveSpeed(0,0,0,0))
 			self.ballSeen = True
@@ -30,13 +28,9 @@ def move_backwards(speed):
 	return MoveSpeed((-1)*speed, speed, 0, 0)
 
 def rotate(speed):
-	# rotates around its own axis
-	# speed: positive -> turn right; negative -> turn left
 	return MoveSpeed(speed, speed, speed, 0)
 
 def circle(speed):
-	# rotates around axis in front of the robot
-	# speed: positive -> move left; negative -> move right
 	return MoveSpeed(0, 0, speed, 0)
 
 if __name__ == '__main__':

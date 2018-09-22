@@ -6,10 +6,11 @@ from general.msg import MoveSpeed
 class MainboardRunner():
 
     board = None
+    
     def __init__(self):
-	rospy.init_node("connection_test", anonymous=True)
+	    rospy.init_node("connection_test", anonymous=True)
         rospy.Subscriber("moving_speed", MoveSpeed, self.callback)
-	self.board = ComportMainboard()
+	    self.board = ComportMainboard()
 
     #def run(self):
         #rospy.init_node("comport_mainboad", anonymous=True)
@@ -34,19 +35,13 @@ class MainboardRunner():
 
     def run(self):
         self.board.run()
-	rospy.spin()
-	'''
-        r = rospy.Rate(30)
-        while not rospy.is_shutdown():
-            self.move_forward(10)
-            r.sleep()
-	'''
+	    rospy.spin()
         print("closing board")
         self.board.close()
 
     def speeds_callback(self, speeds):
-	print(str(speeds))
-	self.set_dir(speeds.left, speeds.right, speeds.back, speeds.thrower)
+	    print(str(speeds))
+	    self.set_dir(speeds.left, speeds.right, speeds.back, speeds.thrower)
 
     def move_forward(self, speed):
         self.set_dir(speed, (-1) * speed, 0)
@@ -69,7 +64,7 @@ class MainboardRunner():
 
 if __name__ == '__main__':
     try:
-	mainboard_runner = MainboardRunner()
-	mainboard_runner.run()
+	    mainboard_runner = MainboardRunner()
+	    mainboard_runner.run()
     except rospy.ROSInterruptException:
-	pass
+	    pass
