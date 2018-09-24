@@ -38,9 +38,11 @@ if __name__ == '__main__':
 		gameLogic = GameLogic()
 		rate = rospy.Rate(60)
 		while not rospy.is_shutdown():
-			if gameLogic.ballSeen == False:
+			if not gameLogic.ballSeen:
 				print("X - Ball not seen.")
 				gameLogic.speed_pub.publish(rotate(-10))
+			else:
+				print("X - BALL SEEN")
 			rate.sleep()
 	except rospy.ROSInterruptException:
 		pass

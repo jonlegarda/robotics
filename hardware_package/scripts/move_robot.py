@@ -53,7 +53,7 @@ class MainboardRunner():
     def circle(self, speed):
         self.set_dir(0, 0, speed)
 
-    def set_dir(self, front_left, front_right, back, thrower=0):
+    def set_dir(self, front_left, front_right, back, thrower=10):
         self.board.write("sd:{}:{}:{}:{}".format(front_left, front_right, back, thrower))
 
     def get_dir(self):
@@ -64,6 +64,7 @@ if __name__ == '__main__':
     try:
 	    mainboard_runner = MainboardRunner()
 	    mainboard_runner.run()
-	    mainboard_runner.move_forward(10)
+	    #mainboard_runner.move_forward(10)
+	    mainboard_runner.set_dir(10,-10,0)
     except rospy.ROSInterruptException:
 	    pass
