@@ -33,7 +33,7 @@ class MainboardRunner():
 
     def run(self):
         self.board.run()
-	rospy.spin()
+	#rospy.spinOnce()
         print("closing board")
         self.board.close()
 
@@ -55,6 +55,10 @@ class MainboardRunner():
 
     def set_dir(self, front_left, front_right, back, thrower=10):
         self.board.write("sd:{}:{}:{}:{}".format(front_left, front_right, back, thrower))
+	self.board.write("d:1500\n")
+
+    #def set_thrower():
+	#self.board.write("d:1500")
 
     def get_dir(self):
         self.board.write('gs')
@@ -65,6 +69,11 @@ if __name__ == '__main__':
 	    mainboard_runner = MainboardRunner()
 	    mainboard_runner.run()
 	    #mainboard_runner.move_forward(10)
-	    mainboard_runner.set_dir(10,-10,0)
+	    #mainboard_runner.set_dir(10,-10,0)
+	    rate = rospy.Rate(10)
+	    while rospy.is_shutdown():
+	    	mainboard_runner.set_thrower()
+		print("Throwe should go!!")
+		rate.sleep()
     except rospy.ROSInterruptException:
 	    pass

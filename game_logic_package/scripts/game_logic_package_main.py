@@ -28,7 +28,7 @@ def move_backwards(speed):
 	return MoveSpeed((-1)*speed, speed, 0, 0)
 
 def rotate(speed):
-	return MoveSpeed(speed, speed, speed, 0)
+	return MoveSpeed(speed, speed, speed, 10)
 
 def circle(speed):
 	return MoveSpeed(0, 0, speed, 0)
