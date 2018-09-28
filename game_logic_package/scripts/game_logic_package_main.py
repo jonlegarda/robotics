@@ -27,9 +27,9 @@ BALL_DISTANCE_UNKNOWN = "ball is in an unknown position"
 ROBOT_SPEED = 10
 
 # Angles of each wheel in order to use Omion
-WHEEL_LEFT_ANGLE = 240 # 120
-WHEEL_RIGHT_ANGLE = 120 # 210
-WHEEL_BACK_ANGLE = 0 # 0
+WHEEL_LEFT_ANGLE = 60 # 120
+WHEEL_RIGHT_ANGLE = 300 # 210
+WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
 TASK_NUMBER = 1
