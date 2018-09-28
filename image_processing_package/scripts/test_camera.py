@@ -19,7 +19,7 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+	    self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
 
     def run(self):
         self.pipeline = rs.pipeline()
@@ -50,8 +50,8 @@ if __name__ == '__main__':
     try:
         camera_proc = RealsenseProcessing()
         camera_proc.run()
-	rate = rospy.Rate(60)
-	while not rospy.is_shutdown():
+        rate = rospy.Rate(60)
+        while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
 	    detector = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
@@ -62,11 +62,14 @@ if __name__ == '__main__':
 	    print("cx:", x)
 	    #print("cy: ", y)
 	    #print("contour_area: ", e)
-	    if (x<400 and x>240):
-		    camera_proc.publisher.publish(BallPoint(x,y,0))
-		    print(PRINT_SENTENCE + "ball seen. Stop robot!")
+	    if ( 4 < f and f < 90):
+            camera_proc.publisher.publish(BallPoint(x,y,0))
+            if (290<f<320):
+                print(PRINT_SENTENCE + "ball seen. Stop robot!")
+            else:
+                print(PRINT_SENTENCE + "ball seen. No centered.")
         else:
-            print(PRINT_SENTENCE + "no ball.")
+		    camera_proc.publisher.publish(BallPoint(-1,-1,0)
         rate.sleep()
     except rospy.ROSInterruptException:
         pass
