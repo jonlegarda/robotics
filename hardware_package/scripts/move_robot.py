@@ -33,7 +33,7 @@ class MainboardRunner():
 
     def run(self):
         self.board.run()
-	#rospy.spinOnce()
+	rospy.spin()
         print("closing board")
         self.board.close()
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 	    #mainboard_runner.set_dir(10,-10,0)
 	    rate = rospy.Rate(10)
 	    while rospy.is_shutdown():
-	    	mainboard_runner.set_thrower()
+	    	#mainboard_runner.set_thrower()
 		print("Throwe should go!!")
 		rate.sleep()
     except rospy.ROSInterruptException:

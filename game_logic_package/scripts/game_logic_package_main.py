@@ -96,25 +96,25 @@ if __name__ == '__main__':
             if (TASK_NUMBER == 1):
                 if (gameLogic.status == BALL_ON_CENTER):
                     # T1 - Robot moves side to side
-                    left_wheel = calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE)
-                    right_wheel = calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE)
-                    back_wheel = calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE)
+                    left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
+                    right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
+                    back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print (PRINT_SENTENCE1 + BALL_ON_CENTER)
                     # gameLogic.speed_pub.publish(move_forward(6))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
-                    left_wheel = calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE)
-                    right_wheel = calculate_speed(ROBOT_SPEED, 180, WHEEL_RIGHT_ANGLE)
-                    back_wheel = calculate_speed(ROBOT_SPEED, 180, WHEEL_BACK_ANGLE)
+                    left_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE),2)
+                    right_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_RIGHT_ANGLE),2)
+                    back_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_BACK_ANGLE),2)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print(PRINT_SENTENCE1 + BALL_ON_THE_LEFT)
                     # gameLogic.speed_pub.publish(rotate(7))
                 elif gameLogic.status == BALL_ON_THE_RIGHT:
                     # T1 - Robot moves side to side
-                    left_wheel = calculate_speed(ROBOT_SPEED, 0, WHEEL_LEFT_ANGLE)
-                    right_wheel = calculate_speed(ROBOT_SPEED, 0, WHEEL_RIGHT_ANGLE)
-                    back_wheel = calculate_speed(ROBOT_SPEED, 0, WHEEL_BACK_ANGLE)
+                    left_wheel = round(calculate_speed(ROBOT_SPEED, 0, WHEEL_LEFT_ANGLE),2)
+                    right_wheel = round(calculate_speed(ROBOT_SPEED, 0, WHEEL_RIGHT_ANGLE),2)
+                    back_wheel = round(calculate_speed(ROBOT_SPEED, 0, WHEEL_BACK_ANGLE),2)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print(PRINT_SENTENCE1 + BALL_ON_THE_RIGHT)
                     # gameLogic.speed_pub.publish(rotate(-7))
@@ -127,9 +127,9 @@ if __name__ == '__main__':
                     # T2 - The robot must go directly to the ball once ball is seen
                     # NEEDS TO BE DONE!!
                     robot_angle = calculate_robot_angle(gameLogic.ball_x)
-                    left_wheel = calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE)
-                    right_wheel = calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE)
-                    back_wheel = calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE)
+                    left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
+                    right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
+                    back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                 else:
                     gameLogic.speed_pub.publish(rotate(-10))

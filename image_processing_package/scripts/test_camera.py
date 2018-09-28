@@ -48,7 +48,7 @@ if __name__ == '__main__':
     try:
         camera_proc = RealsenseProcessing()
         camera_proc.run()
-        rate = rospy.Rate(60)
+        rate = rospy.Rate(20)
         while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 	    #print("contour_area: ", e)
 	    if ( 4 < f and f < 90):
             	camera_proc.publisher.publish(BallPoint(x,y,0))
-            	if (290<f<320):
+            	if (270<x<370):
                 	print(PRINT_SENTENCE + "ball seen. Stop robot!")
             	else:
                 	print(PRINT_SENTENCE + "ball seen. No centered.")
