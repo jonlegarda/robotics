@@ -8,6 +8,8 @@ from std_msgs.msg import String
 from image_processing_package.image_colors import Detector
 from image_processing_package.msg import BallPoint
 
+PRINT_SENTENCE = "image_processing_package -> test_camera : "
+
 class RealsenseProcessing():
     def __init__(self):
         rospy.init_node("realsense_processing", anonymous=True)
@@ -61,8 +63,10 @@ if __name__ == '__main__':
 	    #print("cy: ", y)
 	    #print("contour_area: ", e)
 	    if (x<400 and x>240):
-		camera_proc.publisher.publish(BallPoint(x,y,0))
-		print("--STOP THE ROBOT! --")
-            rate.sleep()
+		    camera_proc.publisher.publish(BallPoint(x,y,0))
+		    print(PRINT_SENTENCE + "ball seen. Stop robot!")
+        else:
+            print(PRINT_SENTENCE + "no ball.")
+        rate.sleep()
     except rospy.ROSInterruptException:
         pass

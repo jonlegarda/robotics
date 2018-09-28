@@ -34,6 +34,9 @@ WHEEL_BACK_ANGLE = 0
 # Week 3: Two types of task for going through a ball.
 TASK_NUMBER = 1
 
+# Printing message first sentence
+PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
+
 class GameLogic():
 
     def __init__(self):
@@ -93,6 +96,7 @@ if __name__ == '__main__':
                     right_wheel = calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE)
                     back_wheel = calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    print (PRINT_SENTENCE1 + BALL_ON_CENTER)
                     # gameLogic.speed_pub.publish(move_forward(6))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
@@ -100,6 +104,7 @@ if __name__ == '__main__':
                     right_wheel = calculate_speed(ROBOT_SPEED, 180, WHEEL_RIGHT_ANGLE)
                     back_wheel = calculate_speed(ROBOT_SPEED, 180, WHEEL_BACK_ANGLE)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    print(PRINT_SENTENCE1 + BALL_ON_THE_LEFT)
                     # gameLogic.speed_pub.publish(rotate(7))
                 elif gameLogic.status == BALL_ON_THE_RIGHT:
                     # T1 - Robot moves side to side
@@ -107,9 +112,11 @@ if __name__ == '__main__':
                     right_wheel = calculate_speed(ROBOT_SPEED, 0, WHEEL_RIGHT_ANGLE)
                     back_wheel = calculate_speed(ROBOT_SPEED, 0, WHEEL_BACK_ANGLE)
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    print(PRINT_SENTENCE1 + BALL_ON_THE_RIGHT)
                     # gameLogic.speed_pub.publish(rotate(-7))
                 elif gameLogic.status == BALL_UNKNOWN:
                     gameLogic.speed_pub.publish(rotate(-10))
+                    print(PRINT_SENTENCE1 + BALL_UNKNOWN)
                 rate.sleep()
             else:
                 if (gameLogic.status != BALL_UNKNOWN):
