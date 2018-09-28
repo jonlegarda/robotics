@@ -33,8 +33,10 @@ class RealsenseProcessing():
     def get_frame(self):
         frames = self.pipeline.wait_for_frames()
         aligned_frames = self.align.process(frames)
+
         aligned_depth_frame = aligned_frames.get_depth_frame()  # aligned_depth_frame is a 640x480 depth image
         color_frame = aligned_frames.get_color_frame()
+
         if not aligned_depth_frame or not color_frame:
             return
 
@@ -61,13 +63,13 @@ if __name__ == '__main__':
 	    #print("cy: ", y)
 	    #print("contour_area: ", e)
 	    if ( 4 < f and f < 90):
-            	camera_proc.publisher.publish(BallPoint(x,y,0))
-            	if (290<f<320):
-                	print(PRINT_SENTENCE + "ball seen. Stop robot!")
-            	else:
-                	print(PRINT_SENTENCE + "ball seen. No centered.")
+            camera_proc.publisher.publish(BallPoint(x,y,0))
+            if (290<f<320):
+                print(PRINT_SENTENCE + "ball seen. Stop robot!")
             else:
-	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
-	    rate.sleep()
+                print(PRINT_SENTENCE + "ball seen. No centered.")
+        else:
+		    camera_proc.publisher.publish(BallPoint(-1,-1,0)
+        rate.sleep()
     except rospy.ROSInterruptException:
         pass
