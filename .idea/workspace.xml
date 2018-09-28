@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93a83716-51f5-4bb2-a1aa-591959250519" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,30 +29,45 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="13" />
+          <entry key="py" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="13" />
+          <entry key="Python" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="3913" />
+          <entry key="py" value="4071" />
           <entry key="txt" value="43" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="43" />
-          <entry key="Python" value="3913" />
+          <entry key="Python" value="4071" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="191">
+              <caret line="127" column="40" lean-forward="true" selection-start-line="127" selection-start-column="40" selection-end-line="127" selection-end-column="40" />
+              <folding>
+                <element signature="e#23#35#0" expanded="true" />
+                <marker date="1538128896232" expanded="true" signature="2952:3106" ph="..." />
+                <marker date="1538128896232" expanded="true" signature="3066:3106" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,8 +75,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" />
         <option value="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" />
+        <option value="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" />
       </list>
     </option>
   </component>
@@ -90,17 +106,6 @@
               <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robotics" type="462c0819:PsiDirectoryNode" />
               <item name="game_logic_package" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Robotics" type="462c0819:PsiDirectoryNode" />
-              <item name="image_processing_package" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Robotics" type="462c0819:PsiDirectoryNode" />
-              <item name="image_processing_package" type="462c0819:PsiDirectoryNode" />
               <item name="scripts" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -148,8 +153,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24255952" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24255952" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -160,7 +166,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.16202946" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.1309329" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3289689" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -183,24 +189,24 @@
         <state relative-caret-position="-510" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py">
+    <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/test_camera.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="37" column="68" selection-start-line="37" selection-start-column="68" selection-end-line="37" selection-end-column="68" />
+        <state relative-caret-position="722">
+          <caret line="65" column="12" selection-start-line="65" selection-start-column="12" selection-end-line="65" selection-end-column="12" />
           <folding>
-            <element signature="e#23#35#0" expanded="true" />
-            <marker date="1538124224606" expanded="true" signature="2820:2948" ph="..." />
-            <marker date="1538124224606" expanded="true" signature="2933:2948" ph="..." />
+            <element signature="e#22#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/test_camera.py">
+    <entry file="file://$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="869">
-          <caret line="65" column="12" selection-start-line="65" selection-start-column="12" selection-end-line="65" selection-end-column="12" />
+        <state relative-caret-position="191">
+          <caret line="127" column="40" lean-forward="true" selection-start-line="127" selection-start-column="40" selection-end-line="127" selection-end-column="40" />
           <folding>
-            <element signature="e#22#34#0" expanded="true" />
+            <element signature="e#23#35#0" expanded="true" />
+            <marker date="1538128896232" expanded="true" signature="2952:3106" ph="..." />
+            <marker date="1538128896232" expanded="true" signature="3066:3106" ph="..." />
           </folding>
         </state>
       </provider>
