@@ -19,6 +19,7 @@ class Detector:
         cy = -1
         contour_area = -1
         w = -1
+	h = -1
         #_, frame = cap.read()
         #hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         # Threshold the HSV image to get only necessary colors
@@ -80,4 +81,4 @@ class Detector:
             # draw the book contour (in green)
             cv2.rectangle(res, (x, y), (x + w, y + h), (0, 255, 0), 2)
         print("w:", w)
-        return res, mask, cx, cy, contour_area, w
+        return res, mask, cx, cy, contour_area, w, h

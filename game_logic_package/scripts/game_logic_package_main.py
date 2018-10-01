@@ -91,7 +91,7 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
         gameLogic = GameLogic()
-        rate = rospy.Rate(60)
+        rate = rospy.Rate(30)
         while not rospy.is_shutdown():
             if (TASK_NUMBER == 1):
                 if (gameLogic.status == BALL_ON_CENTER):
