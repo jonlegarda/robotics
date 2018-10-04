@@ -12,6 +12,8 @@ CENTER_POINT = 320
 BALL_LARGE = 30
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
+LEFT_BOUND = 0
+RIGHT_BOUND = 640
 
 # Parameters that changes depending on the position of the ball.
 BALL_ON_THE_RIGHT = "ball is on the right"
@@ -27,9 +29,9 @@ BALL_DISTANCE_UNKNOWN = "ball is in an unknown position"
 ROBOT_SPEED = 10
 
 # Angles of each wheel in order to use Omion
-WHEEL_LEFT_ANGLE = 60 # 120
-WHEEL_RIGHT_ANGLE = 300 # 210
-WHEEL_BACK_ANGLE = 180 # 0
+WHEEL_LEFT_ANGLE = 120 # 120
+WHEEL_RIGHT_ANGLE = 210 # 210
+WHEEL_BACK_ANGLE = 0 # 0
 
 # Week 3: Two types of task for going through a ball.
 TASK_NUMBER = 1
@@ -40,13 +42,13 @@ PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
 class GameLogic():
 
     def __init__(self):
+	self.ball_x = 0
+	self.ball_y = 0
         rospy.init_node("game_logic_package", anonymous=True) #may be game_logic(?)
         rospy.Subscriber("ball_coordinates", BallPoint, self.callback)
         self.ballSeen = False
         self.status = BALL_UNKNOWN
         self.ballDistance = BALL_DISTANCE_UNKNOWN
-        self.ball_x = 0
-        self.ball_y = 0
         self.speed_pub = rospy.Publisher("move_speed", MoveSpeed, queue_size=10)
 
     def callback(self, ballPoint):
@@ -54,15 +56,15 @@ class GameLogic():
         self.ball_x = ballPoint.x
         self.ball_y = ballPoint.y
         # Try to be more precise and detect the ball in different parts of the frame.
-        if (ballPoint.x <= RIGHT_PERMITTED_FOR_BALL  and ballPoint.x >= LEFT_PERMITTED_FOR_BALL):
+        if (LEFT_PERMITTED_FOR_BALL <= ballPoint.x <= RIGHT_PERMITTED_FOR_BALL):
             print("game_logic_package_main -> STOP ROBOT. BALL IS IN THE CENTER.")
-            self.speed_pub.publish(MoveSpeed(0,0,0,0))
+            #self.speed_pub.publish(MoveSpeed(0,0,0,0))
             self.ballSeen = True
             self.status = BALL_ON_CENTER
-        elif (ballPoint.x > LEFT_PERMITTED_FOR_BALL):
+        elif (RIGHT_PERMITTED_FOR_BALL < ballPoint.x <= RIGHT_BOUND):
             print("game_logic_package_main -> Should rotate to the right.")
             self.status = BALL_ON_THE_RIGHT
-        elif (ballPoint < RIGHT_PERMITTED_FOR_BALL):
+        elif (LEFT_BOUND <= ballPoint.x < LEFT_PERMITTED_FOR_BALL):
             print("game_logic_package_main -> Should rotate to the left")
             self.status = BALL_ON_THE_LEFT
         else:
@@ -91,7 +93,7 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
         gameLogic = GameLogic()
-        rate = rospy.Rate(30)
+        rate = rospy.Rate(2)
         while not rospy.is_shutdown():
             if (TASK_NUMBER == 1):
                 if (gameLogic.status == BALL_ON_CENTER):
@@ -99,9 +101,9 @@ if __name__ == '__main__':
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
                     right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
                     back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
-                    gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    #gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print (PRINT_SENTENCE1 + BALL_ON_CENTER)
-                    # gameLogic.speed_pub.publish(move_forward(6))
+                    gameLogic.speed_pub.publish(move_forward(6))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE),2)
@@ -110,7 +112,7 @@ if __name__ == '__main__':
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print(PRINT_SENTENCE1 + BALL_ON_THE_LEFT)
                     # gameLogic.speed_pub.publish(rotate(7))
-                elif gameLogic.status == BALL_ON_THE_RIGHT:
+                elif (gameLogic.status == BALL_ON_THE_RIGHT):
                     # T1 - Robot moves side to side
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 0, WHEEL_LEFT_ANGLE),2)
                     right_wheel = round(calculate_speed(ROBOT_SPEED, 0, WHEEL_RIGHT_ANGLE),2)
@@ -118,8 +120,8 @@ if __name__ == '__main__':
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print(PRINT_SENTENCE1 + BALL_ON_THE_RIGHT)
                     # gameLogic.speed_pub.publish(rotate(-7))
-                elif gameLogic.status == BALL_UNKNOWN:
-                    gameLogic.speed_pub.publish(rotate(-10))
+                elif (gameLogic.status == BALL_UNKNOWN):
+                    gameLogic.speed_pub.publish(rotate(-6))
                     print(PRINT_SENTENCE1 + BALL_UNKNOWN)
                 rate.sleep()
             else:

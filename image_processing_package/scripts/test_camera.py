@@ -56,7 +56,7 @@ if __name__ == '__main__':
     try:
         camera_proc = RealsenseProcessing()
         camera_proc.run()
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(1)
         while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)

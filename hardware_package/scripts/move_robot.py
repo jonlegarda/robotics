@@ -55,7 +55,6 @@ class MainboardRunner():
 
     def set_dir(self, front_left, front_right, back, thrower=10):
         self.board.write("sd:{}:{}:{}:{}".format(front_left, front_right, back, thrower))
-	self.board.write("d:1500\n")
 
     #def set_thrower():
 	#self.board.write("d:1500")
@@ -70,7 +69,7 @@ if __name__ == '__main__':
 	    mainboard_runner.run()
 	    #mainboard_runner.move_forward(10)
 	    #mainboard_runner.set_dir(10,-10,0)
-	    rate = rospy.Rate(10)
+	    rate = rospy.Rate(2)
 	    while rospy.is_shutdown():
 		rate.sleep()
     except rospy.ROSInterruptException:
