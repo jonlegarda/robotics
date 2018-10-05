@@ -20,7 +20,7 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-	    self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
         self.publisher_basket = rospy.Publisher("basket_coordinates", BasketPoint, queue_size=10)
 
     def run(self):
@@ -77,15 +77,16 @@ if __name__ == '__main__':
                     print(PRINT_SENTENCE + "BALL seen. YES centered.")
                 else:
                     print(PRINT_SENTENCE + "BALL seen. NO centered.")
-		        if (400<y<460):
-			        print(PRINT_SENTENCE + "BALL is near-STOP!")
-		        else:
-			        print(PRINT_SENTENCE + "BALL is far-GO!")
+		if (400<y<460):
+		    print(PRINT_SENTENCE + "BALL is near-STOP!")
+		else:
+		    print(PRINT_SENTENCE + "BALL is far-GO!")
             else:
-		        print(PRINT_SENTENCE + "BALL NOT seen.")
-	    	    camera_proc.publisher.publish(BallPoint(-1,-1,0))
+		print(PRINT_SENTENCE + "BALL NOT seen.")
+	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
             # BASKET DETECTION.
             camera_proc.publisher.publish(BasketPoint(x_basket, y_basket, 0))
+	    print(PRINT_SENTENCE + "BASKET x=" + str(x_basket) + " y=" + str(y_basket) )
 	    rate.sleep()
     except rospy.ROSInterruptException:
         pass

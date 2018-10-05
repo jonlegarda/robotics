@@ -56,7 +56,7 @@ WHEEL_RIGHT_ANGLE = 300 # 210
 WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
-TASK_NUMBER = 2
+TASK_NUMBER = 1
 
 # Printing message first sentence
 PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
@@ -98,13 +98,13 @@ class GameLogic():
             print("game_logic_package_main -> Should rotate still rotate (no matter direction)")
             self.status = BALL_UNKNOWN
         if (BALL_DISTANCE_PERMITTED <= ballPoint.y <= 460):
-	        self.ballDistance = BALL_CLOSE
-	    else:
-	        self.ballDistance = BALL_FAR
-	    if (self.status == BALL_ON_CENTER and self.ballDistance == BALL_CLOSE):
-	        self.status = ROBOT_STOP
+	    self.ballDistance = BALL_CLOSE
+	else:
+	    self.ballDistance = BALL_FAR
+	if (self.status == BALL_ON_CENTER and self.ballDistance == BALL_CLOSE):
+	    self.status = ROBOT_STOP
 
-        def callback_basket(self, basketPoint):
+    def callback_basket(self, basketPoint):
             print(str(basketPoint))
             self.basket_x = basketPoint.x
             self.basket_y = basketPoint.y
@@ -147,7 +147,7 @@ if __name__ == '__main__':
         gameLogic = GameLogic()
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
-            if (TASK_NUMBER == 1):
+            if (TASK_NUMBER == 1 and gameLogic.next_task == CALIBRATE_BALL):
                 if (gameLogic.status == BALL_ON_CENTER):
                     if (gameLogic.ballDistance == BALL_FAR):
                         # T1 - Robot moves side to side
@@ -156,11 +156,9 @@ if __name__ == '__main__':
                         back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
                         gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                         print (PRINT_SENTENCE1 + BALL_ON_CENTER)
-                        #gameLogic.speed_pub.publish(move_forward(6))
-		    	        #gameLogic.speed_pub.publish(move_backwards(6))
-		            elif(gameLogic.ballDistance == BALL_CLOSE):
+		    elif(gameLogic.ballDistance == BALL_CLOSE):
                         gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-                elif(gameLogic.status == BALL_ON_THE_LEFT):
+                elif (gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE),2)
                     right_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_RIGHT_ANGLE),2)
@@ -179,19 +177,22 @@ if __name__ == '__main__':
                 elif (gameLogic.status == BALL_UNKNOWN):
                     gameLogic.speed_pub.publish(rotate(-6))
                     print(PRINT_SENTENCE1 + BALL_UNKNOWN)
-		        elif (gameLogic.status == ROBOT_STOP):
-		            gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-		            print(PRINT_SENTENCE1 + ROBOT_STOP)
+		elif (gameLogic.status == ROBOT_STOP):
+		    gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+		    print(PRINT_SENTENCE1 + ROBOT_STOP)
                     gameLogic.next_task = CALIBRATE_BASKET
                 # NOW, THIS CODE IS TO MOVE DEPENDING ON WHERE THE BASKET IS...
                 if (gameLogic.next_task == CALIBRATE_BASKET):
                     if (gameLogic.status_basket == BASKET_ON_THE_LEFT):
+			print("BASKET on the LEFT. -> circle to the right")
                         gameLogic.speed_pub.publish(circle_right(5))
                     elif (gameLogic.status_basket == BASKET_ON_THE_RIGHT):
                         gameLogic.speed_pub.publish(circle_left(5))
+			print("BASKET on the RIGHT. -> circle to the left")
                     elif (gameLogic.status_basket == BASKET_ON_THE_CENTER):
                         gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-                        if (gameLogic.status_basket == BASKET_ON_THE_CENTER):
+			print("BASKET on the CENTER. -> STOP!!!")
+                        if (gameLogic.status == BALL_ON_THE_CENTER):
                             print ("SUCCESS MOTHERFUCKERS!!")
                         else:
                             print("OH, REFINE THE CODE!")
@@ -202,14 +203,14 @@ if __name__ == '__main__':
                 if (gameLogic.status != BALL_UNKNOWN):
                     # T2 - The robot must go directly to the ball once ball is seen
                     # NEEDS TO BE DONE!!
-		            if (gameLogic.ballDistance == BALL_FAR):
+		    if (gameLogic.ballDistance == BALL_FAR):
                     	robot_angle = calculate_robot_angle(gameLogic.ball_x)
                     	left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
                     	right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
                     	back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
                     	gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
-		        elif (gameLogic.ballDistance == BALL_CLOSE):
-			        gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+		elif (gameLogic.ballDistance == BALL_CLOSE):
+			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 else:
                     gameLogic.speed_pub.publish(rotate(-10))
             else:
