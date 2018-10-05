@@ -29,12 +29,12 @@ BALL_DISTANCE_UNKNOWN = "ball is in an unknown position"
 ROBOT_SPEED = 10
 
 # Angles of each wheel in order to use Omion
-WHEEL_LEFT_ANGLE = 120 # 120
-WHEEL_RIGHT_ANGLE = 210 # 210
-WHEEL_BACK_ANGLE = 0 # 0
+WHEEL_LEFT_ANGLE = 60 # 120
+WHEEL_RIGHT_ANGLE = 300 # 210
+WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
-TASK_NUMBER = 1
+TASK_NUMBER = 2
 
 # Printing message first sentence
 PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
@@ -103,7 +103,8 @@ if __name__ == '__main__':
                     back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
                     #gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     print (PRINT_SENTENCE1 + BALL_ON_CENTER)
-                    gameLogic.speed_pub.publish(move_forward(6))
+                    #gameLogic.speed_pub.publish(move_forward(6))
+		    gameLogic.speed_pub.publish(move_backwards(6))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE),2)
@@ -124,7 +125,7 @@ if __name__ == '__main__':
                     gameLogic.speed_pub.publish(rotate(-6))
                     print(PRINT_SENTENCE1 + BALL_UNKNOWN)
                 rate.sleep()
-            else:
+            elif (TASK_NUMBER == 2):
                 if (gameLogic.status != BALL_UNKNOWN):
                     # T2 - The robot must go directly to the ball once ball is seen
                     # NEEDS TO BE DONE!!
@@ -135,6 +136,8 @@ if __name__ == '__main__':
                     gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                 else:
                     gameLogic.speed_pub.publish(rotate(-10))
-                rate.sleep()
+            else:
+		gameLogic.speed_pub.publish(MoveSpeed(10,10,10,0))
+	    rate.sleep()
     except rospy.ROSInterruptException:
         pass
