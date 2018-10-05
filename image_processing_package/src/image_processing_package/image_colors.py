@@ -19,7 +19,7 @@ class Detector:
         cy = -1
         contour_area = -1
         w = -1
-	h = -1
+        h = -1
         #_, frame = cap.read()
         #hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         # Threshold the HSV image to get only necessary colors

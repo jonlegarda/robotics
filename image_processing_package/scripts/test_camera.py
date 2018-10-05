@@ -7,6 +7,7 @@ import numpy as np
 from std_msgs.msg import String
 from image_processing_package.image_colors import Detector
 from image_processing_package.msg import BallPoint
+from image_processing_package.msg import BasketPoint
 
 PRINT_SENTENCE = "image_processing_package -> test_camera : "
 
@@ -19,7 +20,8 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+	    self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+        self.publisher_basket = rospy.Publisher("basket_coordinates", BasketPoint, queue_size=10)
 
     def run(self):
         self.pipeline = rs.pipeline()
@@ -60,23 +62,30 @@ if __name__ == '__main__':
         while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
-	    detector = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
-	    cap = None
-	    res, mask, x, y, contour_area, w, h = detector.detect(camera_proc.hsv, camera_proc.regular_image)
-	    print("x coordinate - cx:", x)
-	    if (it_is_ball(x,y,w,h,contour_area)):
-            	camera_proc.publisher.publish(BallPoint(x,y,0))
-            	if (270<x<370):
-                	print(PRINT_SENTENCE + "ball seen. YES centered.")
-            	else:
-                	print(PRINT_SENTENCE + "ball seen. NO centered.")
-		if (400<y<460):
-			print(PRINT_SENTENCE + "ball is near-STOP!")
-		else:
-			print(PRINT_SENTENCE + "ball is far-GO!")
+            detector = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/ball_color_parameters.txt', 'ball_color_parameters')
+            # code for calibrating basket:
+            detector_basket = Detector('/home/superuser/catkin_ws/src/image_processing_package/scripts/configuration/basket_color_parameters.txt', 'basket_color_parameters')
+            cap = None
+            res, mask, x, y, contour_area, w, h = detector.detect(camera_proc.hsv, camera_proc.regular_image)
+            # code for calibrating basket:
+            res_basket, mask_basket, x_basket, y_basket, contour_area_basket, w_basket, h_basket = detector_basket.detect(camera_proc.hsv, camera_proc.regular_image)
+            print("x coordinate - cx - BALL :", x)
+            # BALL DETECTION.
+            if (it_is_ball(x,y,w,h,contour_area)):
+                camera_proc.publisher.publish(BallPoint(x,y,0))
+                if (270<x<370):
+                    print(PRINT_SENTENCE + "BALL seen. YES centered.")
+                else:
+                    print(PRINT_SENTENCE + "BALL seen. NO centered.")
+		        if (400<y<460):
+			        print(PRINT_SENTENCE + "BALL is near-STOP!")
+		        else:
+			        print(PRINT_SENTENCE + "BALL is far-GO!")
             else:
-		print(PRINT_SENTENCE + "ball NOT seen.")
-	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
+		        print(PRINT_SENTENCE + "BALL NOT seen.")
+	    	    camera_proc.publisher.publish(BallPoint(-1,-1,0))
+            # BASKET DETECTION.
+            camera_proc.publisher.publish(BasketPoint(x_basket, y_basket, 0))
 	    rate.sleep()
     except rospy.ROSInterruptException:
         pass

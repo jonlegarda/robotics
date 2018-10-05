@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93a83716-51f5-4bb2-a1aa-591959250519" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/image_processing_package/msg/BasketPoint.msg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/image_processing_package/scripts/configuration/basket_color_parameters.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_processing_package/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing_package/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_processing_package/src/image_processing_package/image_colors.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing_package/src/image_processing_package/image_colors.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,53 +20,83 @@
     <session id="-540922616">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="10" />
+          <entry key="project.closed" value="13" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.15" value="2" />
-          <entry key="project.open.time.19" value="2" />
+          <entry key="project.open.time.19" value="3" />
           <entry key="project.open.time.21" value="1" />
+          <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.24" value="2" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.open.time.53" value="1" />
           <entry key="project.open.time.55" value="1" />
-          <entry key="project.opened" value="11" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="15" />
+          <entry key="launch" value="1" />
+          <entry key="msg" value="3" />
+          <entry key="py" value="25" />
+          <entry key="txt" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="15" />
+          <entry key="PLAIN_TEXT" value="9" />
+          <entry key="Python" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="4071" />
-          <entry key="txt" value="43" />
+          <entry key="msg" value="33" />
+          <entry key="py" value="6795" />
+          <entry key="txt" value="81" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="43" />
-          <entry key="Python" value="4071" />
+          <entry key="PLAIN_TEXT" value="114" />
+          <entry key="Python" value="6795" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/test_camera.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-785">
+              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+              <folding>
+                <element signature="e#22#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="127" column="40" lean-forward="true" selection-start-line="127" selection-start-column="40" selection-end-line="127" selection-end-column="40" />
+            <state relative-caret-position="300">
+              <caret line="195" column="35" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
               <folding>
                 <element signature="e#23#35#0" expanded="true" />
-                <marker date="1538128896232" expanded="true" signature="2952:3106" ph="..." />
-                <marker date="1538128896232" expanded="true" signature="3066:3106" ph="..." />
+                <marker date="1538752377743" expanded="true" signature="5138:5182" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_processing_package/src/image_processing_package/image_colors.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,12 +110,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/image_processing_package/msg/BasketPoint.msg" />
+        <option value="$PROJECT_DIR$/image_processing_package/scripts/configuration/ball_color_parameters.txt" />
+        <option value="$PROJECT_DIR$/image_processing_package/src/image_processing_package/image_colors.py" />
+        <option value="$PROJECT_DIR$/image_processing_package/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/image_processing_package/scripts/test_camera.py" />
+        <option value="$PROJECT_DIR$/image_processing_package/scripts/configuration/basket_color_parameters.txt" />
         <option value="$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="676" />
     <option name="width" value="697" />
     <option name="height" value="735" />
@@ -90,6 +130,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -100,19 +141,25 @@
             <path>
               <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robotics" type="462c0819:PsiDirectoryNode" />
-              <item name="game_logic_package" type="462c0819:PsiDirectoryNode" />
+              <item name="image_processing_package" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robotics" type="462c0819:PsiDirectoryNode" />
-              <item name="game_logic_package" type="462c0819:PsiDirectoryNode" />
+              <item name="image_processing_package" type="462c0819:PsiDirectoryNode" />
               <item name="scripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Robotics" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Robotics" type="462c0819:PsiDirectoryNode" />
+              <item name="image_processing_package" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="configuration" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -155,7 +202,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24255952" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2924107" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -166,7 +213,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.1309329" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.119476266" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3289689" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -189,24 +236,72 @@
         <state relative-caret-position="-510" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hardware_package/scripts/move_robot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/launch/image_processing_package.launch">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/msg/BasketPoint.msg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/msg/BallPoint.msg">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/configuration/ball_color_parameters.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/src/image_processing_package/image_colors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="201" lean-forward="true" selection-start-line="201" selection-end-line="201" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/test_camera.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="65" column="12" selection-start-line="65" selection-start-column="12" selection-end-line="65" selection-end-column="12" />
+        <state relative-caret-position="-785">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
           <folding>
             <element signature="e#22#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_processing_package/scripts/configuration/basket_color_parameters.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game_logic_package/scripts/game_logic_package_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="127" column="40" lean-forward="true" selection-start-line="127" selection-start-column="40" selection-end-line="127" selection-end-column="40" />
+        <state relative-caret-position="300">
+          <caret line="195" column="35" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
           <folding>
             <element signature="e#23#35#0" expanded="true" />
-            <marker date="1538128896232" expanded="true" signature="2952:3106" ph="..." />
-            <marker date="1538128896232" expanded="true" signature="3066:3106" ph="..." />
+            <marker date="1538752377743" expanded="true" signature="5138:5182" ph="..." />
           </folding>
         </state>
       </provider>
