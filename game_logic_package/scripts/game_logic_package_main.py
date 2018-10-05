@@ -8,7 +8,7 @@ from image_processing_package.msg import BallPoint
 from general_package.msg import MoveSpeed
 
 # Ball parameters position in a frame (maximum and minimum)
-CENTER_POINT = 390
+CENTER_POINT = 380
 BALL_LARGE = 20
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
