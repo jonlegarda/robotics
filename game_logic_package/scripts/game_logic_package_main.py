@@ -9,7 +9,7 @@ from general_package.msg import MoveSpeed
 
 # Ball parameters position in a frame (maximum and minimum)
 CENTER_POINT = 320
-BALL_LARGE = 30
+BALL_LARGE = 20
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
 LEFT_BOUND = 0
@@ -25,6 +25,9 @@ BALL_CLOSE = "ball is close enough to robot."
 BALL_FAR = "ball is far away"
 BALL_DISTANCE_UNKNOWN = "ball is in an unknown position"
 
+# Ball close distance
+BALL_DISTANCE_PERMITTED = 410
+
 # Robot default speed
 ROBOT_SPEED = 10
 
@@ -34,7 +37,7 @@ WHEEL_RIGHT_ANGLE = 300 # 210
 WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
-TASK_NUMBER = 2
+TASK_NUMBER = 1
 
 # Printing message first sentence
 PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
@@ -70,7 +73,10 @@ class GameLogic():
         else:
             print("game_logic_package_main -> Should rotate still rotate (no matter direction)")
             self.status = BALL_UNKNOWN
-
+	if (BALL_DISTANCE_PERMITTED <= ballPoint.y <= 460):
+	    self.ballDistance = BALL_CLOSE
+	else:
+	    self.ballDistance = BALL_FAR
 
 def move_forward(speed):
     return MoveSpeed(speed, (-1) * speed, 0, 0)
@@ -93,18 +99,21 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
         gameLogic = GameLogic()
-        rate = rospy.Rate(2)
+        rate = rospy.Rate(4)
         while not rospy.is_shutdown():
             if (TASK_NUMBER == 1):
                 if (gameLogic.status == BALL_ON_CENTER):
-                    # T1 - Robot moves side to side
-                    left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
-                    right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
-                    back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
-                    #gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
-                    print (PRINT_SENTENCE1 + BALL_ON_CENTER)
-                    #gameLogic.speed_pub.publish(move_forward(6))
-		    gameLogic.speed_pub.publish(move_backwards(6))
+		    if (gameLogic.ballDistance == BALL_FAR):
+			# T1 - Robot moves side to side
+                    	left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
+                    	right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
+                    	back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
+                    	#gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    	print (PRINT_SENTENCE1 + BALL_ON_CENTER)
+                    	#gameLogic.speed_pub.publish(move_forward(6))
+		    	gameLogic.speed_pub.publish(move_backwards(6))
+		    elif (gameLogic.ballDistance == BALL_CLOSE):
+			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
                     left_wheel = round(calculate_speed(ROBOT_SPEED, 180, WHEEL_LEFT_ANGLE),2)

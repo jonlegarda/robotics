@@ -56,7 +56,7 @@ if __name__ == '__main__':
     try:
         camera_proc = RealsenseProcessing()
         camera_proc.run()
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(4)
         while not rospy.is_shutdown():
             camera_proc.get_frame()
             test = np.array(camera_proc.hsv)
@@ -67,9 +67,13 @@ if __name__ == '__main__':
 	    if (it_is_ball(x,y,w,h,contour_area)):
             	camera_proc.publisher.publish(BallPoint(x,y,0))
             	if (270<x<370):
-                	print(PRINT_SENTENCE + "ball seen. Stop robot!")
+                	print(PRINT_SENTENCE + "ball seen. YES centered.")
             	else:
-                	print(PRINT_SENTENCE + "ball seen. No centered.")
+                	print(PRINT_SENTENCE + "ball seen. NO centered.")
+		if (400<y<460):
+			print(PRINT_SENTENCE + "ball is near-STOP!")
+		else:
+			print(PRINT_SENTENCE + "ball is far-GO!")
             else:
 		print(PRINT_SENTENCE + "ball NOT seen.")
 	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
