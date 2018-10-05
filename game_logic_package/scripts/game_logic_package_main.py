@@ -8,7 +8,7 @@ from image_processing_package.msg import BallPoint
 from general_package.msg import MoveSpeed
 
 # Ball parameters position in a frame (maximum and minimum)
-CENTER_POINT = 320
+CENTER_POINT = 390
 BALL_LARGE = 20
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
@@ -31,13 +31,16 @@ BALL_DISTANCE_PERMITTED = 410
 # Robot default speed
 ROBOT_SPEED = 10
 
+# Robot must stop inmediatelly.
+ROBOT_STOP = " STOP DEFINITELY"
+
 # Angles of each wheel in order to use Omion
 WHEEL_LEFT_ANGLE = 60 # 120
 WHEEL_RIGHT_ANGLE = 300 # 210
 WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
-TASK_NUMBER = 1
+TASK_NUMBER = 2
 
 # Printing message first sentence
 PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
@@ -77,6 +80,8 @@ class GameLogic():
 	    self.ballDistance = BALL_CLOSE
 	else:
 	    self.ballDistance = BALL_FAR
+	if (self.status == BALL_ON_CENTER and self.ballDistance == BALL_CLOSE):
+	    self.status = ROBOT_STOP
 
 def move_forward(speed):
     return MoveSpeed(speed, (-1) * speed, 0, 0)
@@ -99,7 +104,7 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
         gameLogic = GameLogic()
-        rate = rospy.Rate(4)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             if (TASK_NUMBER == 1):
                 if (gameLogic.status == BALL_ON_CENTER):
@@ -108,10 +113,10 @@ if __name__ == '__main__':
                     	left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
                     	right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
                     	back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
-                    	#gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                    	gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                     	print (PRINT_SENTENCE1 + BALL_ON_CENTER)
                     	#gameLogic.speed_pub.publish(move_forward(6))
-		    	gameLogic.speed_pub.publish(move_backwards(6))
+		    	#gameLogic.speed_pub.publish(move_backwards(6))
 		    elif (gameLogic.ballDistance == BALL_CLOSE):
 			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 elif(gameLogic.status == BALL_ON_THE_LEFT):
@@ -133,20 +138,26 @@ if __name__ == '__main__':
                 elif (gameLogic.status == BALL_UNKNOWN):
                     gameLogic.speed_pub.publish(rotate(-6))
                     print(PRINT_SENTENCE1 + BALL_UNKNOWN)
+		elif (gameLogic.status == ROBOT_STOP):
+		    gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+		    print(PRINT_SENTENCE1 + ROBOT_STOP)
                 rate.sleep()
             elif (TASK_NUMBER == 2):
                 if (gameLogic.status != BALL_UNKNOWN):
                     # T2 - The robot must go directly to the ball once ball is seen
                     # NEEDS TO BE DONE!!
-                    robot_angle = calculate_robot_angle(gameLogic.ball_x)
-                    left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
-                    right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
-                    back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
-                    gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+		    if (gameLogic.ballDistance == BALL_FAR):
+                    	robot_angle = calculate_robot_angle(gameLogic.ball_x)
+                    	left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
+                    	right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
+                    	back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
+                    	gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+		    elif (gameLogic.ballDistance == BALL_CLOSE):
+			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 else:
                     gameLogic.speed_pub.publish(rotate(-10))
             else:
-		gameLogic.speed_pub.publish(MoveSpeed(10,10,10,0))
+		gameLogic.speed_pub.publish(MoveSpeed(0,10,0,0))
 	    rate.sleep()
     except rospy.ROSInterruptException:
         pass
