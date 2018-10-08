@@ -85,7 +85,7 @@ if __name__ == '__main__':
 		print(PRINT_SENTENCE + "BALL NOT seen.")
 	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
             # BASKET DETECTION.
-            camera_proc.publisher.publish(BasketPoint(x_basket, y_basket, 0))
+            camera_proc.publisher_basket.publish(BasketPoint(x_basket, y_basket, 0))
 	    print(PRINT_SENTENCE + "BASKET x=" + str(x_basket) + " y=" + str(y_basket) )
 	    rate.sleep()
     except rospy.ROSInterruptException:

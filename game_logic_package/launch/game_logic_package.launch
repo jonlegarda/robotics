@@ -1,5 +1,5 @@
 <launch>
 <param name="use_sim_time"  value="false" />
-<node pkg="game_logic_package" type="game_logic_package_main.py" name="game_logic_package_main" 
+<node pkg="game_logic_package" type="game_logic_main_program.py" name="game_logic_main_program" 
 output="screen"/>
 </launch>

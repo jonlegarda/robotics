@@ -8,7 +8,7 @@ from image_processing_package.msg import BallPoint
 from image_processing_package.msg import BasketPoint
 from general_package.msg import MoveSpeed
 
-# Ball & Basket global parameters position in a frame (maximum and minimum)
+#  Ball & Basket global parameters position in a frame (maximum and minimum)
 LEFT_BOUND = 0
 RIGHT_BOUND = 640
 CENTER_POINT = 380
@@ -17,7 +17,7 @@ BALL_LARGE = 20
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
 # Basket parameters
-BASKET_LARGE = 50
+BASKET_LARGE = 100
 LEFT_PERMITTED_FOR_BASKET = CENTER_POINT - BASKET_LARGE
 RIGHT_PERMITTED_FOR_BASKET = CENTER_POINT + BASKET_LARGE
 
@@ -49,6 +49,8 @@ ROBOT_SPEED = 10
 
 # Robot must stop inmediatelly.
 ROBOT_STOP = " STOP DEFINITELY"
+ROBOT_STOP_2 = "STOP!! WE WON!!"
+FINISH_EVERYTHING = "FINISHED!"
 
 # Angles of each wheel in order to use Omion
 WHEEL_LEFT_ANGLE = 60 # 120
@@ -56,7 +58,7 @@ WHEEL_RIGHT_ANGLE = 300 # 210
 WHEEL_BACK_ANGLE = 180 # 0
 
 # Week 3: Two types of task for going through a ball.
-TASK_NUMBER = 1
+TASK_NUMBER = 3
 
 # Printing message first sentence
 PRINT_SENTENCE1 = "game_logic_package -> game_logic_package_main :  "
@@ -66,8 +68,8 @@ class GameLogic():
     def __init__(self):
         self.ball_x = 0
         self.ball_y = 0
-        self.basket_x = 0
-        self.basket_y = 0
+        self.basket_x = -1
+        self.basket_y = -1
         rospy.init_node("game_logic_package", anonymous=True) #may be game_logic(?)
         rospy.Subscriber("ball_coordinates", BallPoint, self.callback)
         # Basket calibration
@@ -75,13 +77,14 @@ class GameLogic():
         self.ballSeen = False
         self.status = BALL_UNKNOWN
         self.ballDistance = BALL_DISTANCE_UNKNOWN
-        self.next_task = CALIBRATE_BALL
+        self.next_task = CALIBRATE_BASKET
         self.speed_pub = rospy.Publisher("move_speed", MoveSpeed, queue_size=10)
 
     def callback(self, ballPoint):
         print(str(ballPoint))
         self.ball_x = ballPoint.x
         self.ball_y = ballPoint.y
+        rospy.loginfo("-----------------BALL callback ------------------- ")
         # Try to be more precise and detect the ball in different parts of the frame.
         if (LEFT_PERMITTED_FOR_BALL <= ballPoint.x <= RIGHT_PERMITTED_FOR_BALL):
             print("game_logic_package_main -> STOP ROBOT. BALL IS IN THE CENTER.")
@@ -98,20 +101,21 @@ class GameLogic():
             print("game_logic_package_main -> Should rotate still rotate (no matter direction)")
             self.status = BALL_UNKNOWN
         if (BALL_DISTANCE_PERMITTED <= ballPoint.y <= 460):
-	    self.ballDistance = BALL_CLOSE
-	else:
-	    self.ballDistance = BALL_FAR
-	if (self.status == BALL_ON_CENTER and self.ballDistance == BALL_CLOSE):
-	    self.status = ROBOT_STOP
+            self.ballDistance = BALL_CLOSE
+        else:
+            self.ballDistance = BALL_FAR
+        if (self.status == BALL_ON_CENTER and self.ballDistance == BALL_CLOSE):
+            self.status = ROBOT_STOP
 
     def callback_basket(self, basketPoint):
             print(str(basketPoint))
+            rospy.loginfo("************BASKET callback **************")
             self.basket_x = basketPoint.x
             self.basket_y = basketPoint.y
             if (LEFT_BOUND <= basketPoint.x < LEFT_PERMITTED_FOR_BASKET):
                 self.status_basket = BASKET_ON_THE_LEFT
                 print("game_logic_package_main -> BASKET. Basket is on the left.")
-            elif (RIGHT_PERMITTED_FOR_BASKET < basketPoint.x <= RIGHT_PERMITTED_FOR_BASKET):
+            elif (RIGHT_PERMITTED_FOR_BASKET < basketPoint.x <= RIGHT_BOUND):
                 self.status_basket = BASKET_ON_THE_RIGHT
                 print("game_logic_package_main -> BASKET. Basket is on the right.")
             elif (LEFT_PERMITTED_FOR_BASKET <= basketPoint.x <= RIGHT_PERMITTED_FOR_BASKET):
@@ -134,7 +138,7 @@ def circle_left(speed):
     return MoveSpeed(0, 0, speed, 0)
 
 def circle_right(speed):
-    return MoveSpeed(0, 0, (-1)*speed, 0)
+    return MoveSpeed(0, 0, (-1) * speed, 0)
 
 def calculate_speed(robotSpeed, robotDirectionAngle, wheelAngle):
     return (robotSpeed * math.cos(math.radians(robotDirectionAngle - wheelAngle)))
@@ -145,18 +149,18 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
         gameLogic = GameLogic()
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(20)
         while not rospy.is_shutdown():
             if (TASK_NUMBER == 1 and gameLogic.next_task == CALIBRATE_BALL):
                 if (gameLogic.status == BALL_ON_CENTER):
                     if (gameLogic.ballDistance == BALL_FAR):
                         # T1 - Robot moves side to side
-                    	left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
+                        left_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_LEFT_ANGLE),2)
                         right_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_RIGHT_ANGLE),2)
                         back_wheel = round(calculate_speed(ROBOT_SPEED, 90, WHEEL_BACK_ANGLE),2)
                         gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                         print (PRINT_SENTENCE1 + BALL_ON_CENTER)
-		    elif(gameLogic.ballDistance == BALL_CLOSE):
+                    elif(gameLogic.ballDistance == BALL_CLOSE):
                         gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 elif (gameLogic.status == BALL_ON_THE_LEFT):
                     # T1 - Robot moves side to side
@@ -177,44 +181,42 @@ if __name__ == '__main__':
                 elif (gameLogic.status == BALL_UNKNOWN):
                     gameLogic.speed_pub.publish(rotate(-6))
                     print(PRINT_SENTENCE1 + BALL_UNKNOWN)
-		elif (gameLogic.status == ROBOT_STOP):
-		    gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-		    print(PRINT_SENTENCE1 + ROBOT_STOP)
+                elif (gameLogic.status == ROBOT_STOP):
+                    gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+                    print(PRINT_SENTENCE1 + ROBOT_STOP)
                     gameLogic.next_task = CALIBRATE_BASKET
                 # NOW, THIS CODE IS TO MOVE DEPENDING ON WHERE THE BASKET IS...
                 if (gameLogic.next_task == CALIBRATE_BASKET):
-                    if (gameLogic.status_basket == BASKET_ON_THE_LEFT):
-			print("BASKET on the LEFT. -> circle to the right")
-                        gameLogic.speed_pub.publish(circle_right(5))
+		    if (gameLogic.status_basket == BASKET_ON_THE_CENTER):
+			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+			gameLogic.next_task = FINISH_EVERYTHING
+                    elif (gameLogic.status_basket == BASKET_ON_THE_LEFT):
+                        print("BASKET on the LEFT. -> circle to the right")
+                        gameLogic.speed_pub.publish(circle_right(3))
                     elif (gameLogic.status_basket == BASKET_ON_THE_RIGHT):
-                        gameLogic.speed_pub.publish(circle_left(5))
-			print("BASKET on the RIGHT. -> circle to the left")
-                    elif (gameLogic.status_basket == BASKET_ON_THE_CENTER):
-                        gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-			print("BASKET on the CENTER. -> STOP!!!")
-                        if (gameLogic.status == BALL_ON_THE_CENTER):
-                            print ("SUCCESS MOTHERFUCKERS!!")
-                        else:
-                            print("OH, REFINE THE CODE!")
+                        gameLogic.speed_pub.publish(circle_left(3))
+                        print("BASKET on the RIGHT. -> circle to the left")
                     else:
-                        gameLogic.speed_pub.publish(rotate(5))
-                rate.sleep()
+                        gameLogic.speed_pub.publish(circle_right(5))
+                if (gameLogic.next_task == FINISH_EVERYTHING):
+			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+		rate.sleep()
             elif (TASK_NUMBER == 2):
                 if (gameLogic.status != BALL_UNKNOWN):
                     # T2 - The robot must go directly to the ball once ball is seen
                     # NEEDS TO BE DONE!!
-		    if (gameLogic.ballDistance == BALL_FAR):
-                    	robot_angle = calculate_robot_angle(gameLogic.ball_x)
-                    	left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
-                    	right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
-                    	back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
-                    	gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
-		elif (gameLogic.ballDistance == BALL_CLOSE):
-			gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+                    if (gameLogic.ballDistance == BALL_FAR):
+                        robot_angle = calculate_robot_angle(gameLogic.ball_x)
+                        left_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_LEFT_ANGLE),2)
+                        right_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_RIGHT_ANGLE),2)
+                        back_wheel = round(calculate_speed(ROBOT_SPEED, robot_angle, WHEEL_BACK_ANGLE),2)
+                        gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                elif (gameLogic.ballDistance == BALL_CLOSE):
+                        gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                 else:
                     gameLogic.speed_pub.publish(rotate(-10))
             else:
-		gameLogic.speed_pub.publish(MoveSpeed(0,10,0,0))
-	    rate.sleep()
+                gameLogic.speed_pub.publish(circle_left(5))
+            rate.sleep()
     except rospy.ROSInterruptException:
         pass
