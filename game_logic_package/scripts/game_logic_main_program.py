@@ -13,11 +13,11 @@ LEFT_BOUND = 0
 RIGHT_BOUND = 640
 CENTER_POINT = 380
 # Ball parameters
-BALL_LARGE = 13
+BALL_LARGE = 15
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
 # Basket parameters
-BASKET_LARGE = 8
+BASKET_LARGE = 10
 LEFT_PERMITTED_FOR_BASKET = CENTER_POINT - BASKET_LARGE
 RIGHT_PERMITTED_FOR_BASKET = CENTER_POINT + BASKET_LARGE
 
@@ -193,9 +193,9 @@ if __name__ == '__main__':
 			gameLogic.next_task = FINISH_EVERYTHING
                     elif (gameLogic.status_basket == BASKET_ON_THE_LEFT):
                         print("BASKET on the LEFT. -> circle to the right")
-                        gameLogic.speed_pub.publish(circle_right(5))
+                        gameLogic.speed_pub.publish(circle_right(6))
                     elif (gameLogic.status_basket == BASKET_ON_THE_RIGHT):
-                        gameLogic.speed_pub.publish(circle_left(5))
+                        gameLogic.speed_pub.publish(circle_left(6))
                         print("BASKET on the RIGHT. -> circle to the left")
                     elif (gameLogic.status_basket == BASKET_UNKNOWN):
 			print("BASKET UNKNOWN ********* BASKET UNKNOWN ********* BASKET UNKNOWN ********* BASKET UNKNOWN ")
