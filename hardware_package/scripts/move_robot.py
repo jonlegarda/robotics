@@ -33,13 +33,13 @@ class MainboardRunner():
 
     def run(self):
         self.board.run()
-	rospy.spin()
+        rospy.spin()
         print("closing board")
         self.board.close()
 
     def callback(self, speeds):
-	print(str(speeds))
-	self.set_dir(speeds.l, speeds.r, speeds.b, speeds.t)
+        print(str(speeds))
+        self.set_dir(speeds.l, speeds.r, speeds.b, speeds.t, "d:"+str(speeds.t))
 
     def move_forward(self, speed):
         self.set_dir(speed, (-1) * speed, 0)
@@ -53,9 +53,9 @@ class MainboardRunner():
     def circle(self, speed):
         self.set_dir(0, 0, speed)
 
-    def set_dir(self, front_left, front_right, back, thrower=10):
+    def set_dir(self, front_left, front_right, back, thrower=0):
         self.board.write("sd:{}:{}:{}:{}".format(front_left, front_right, back, thrower))
-
+        self.board.write(thrower)
     #def set_thrower():
 	#self.board.write("d:1500")
 
@@ -65,12 +65,12 @@ class MainboardRunner():
 
 if __name__ == '__main__':
     try:
-	    mainboard_runner = MainboardRunner()
-	    mainboard_runner.run()
-	    #mainboard_runner.move_forward(10)
+        mainboard_runner = MainboardRunner()
+        mainboard_runner.run()
+        #mainboard_runner.move_forward(10)
 	    #mainboard_runner.set_dir(10,-10,0)
 	    rate = rospy.Rate(2)
-	    while rospy.is_shutdown():
-		rate.sleep()
+        while rospy.is_shutdown():
+            rate.sleep()
     except rospy.ROSInterruptException:
-	    pass
+        pass

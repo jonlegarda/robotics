@@ -11,13 +11,15 @@ from general_package.msg import MoveSpeed
 #  Ball & Basket global parameters position in a frame (maximum and minimum)
 LEFT_BOUND = 0
 RIGHT_BOUND = 640
-CENTER_POINT = 380
+CENTER_POINT = 395
 HEIGHT = 480;
 
 # Ball parameters
 BALL_LARGE = 15
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
+
+PERM_DISTANCE = 6;
 
 # Basket parameters
 BASKET_LARGE = 10
@@ -32,7 +34,7 @@ BALL_UNKNOWN = "ball is unknown"
 
 CALIBRATE_BALL = "ball calibration in progress..."
 CALIBRATE_BASKET = "basket is unknown"
-FINISH_EVERYTHING = "FINISHED!"
+RECALIBRATE_BASKET_AND_BALL = "try to recalibrate a little bit more basket, ball, robot line."
 
 # Parameters that changes depending on the position of the basket
 BASKET_ON_THE_RIGHT = "basket is on the right"
@@ -50,6 +52,7 @@ BALL_DISTANCE_PERMITTED = 440
 
 # Robot default speed
 ROBOT_SPEED = 10
+ROBOT_SPEED_REDUCED = 3
 
 # Robot must stop inmediatelly.
 BALL_CALIBRATED_YES = "Robot is perfectly calibrated."
@@ -59,7 +62,7 @@ WHEEL_LEFT_ANGLE = 60 # 120
 WHEEL_RIGHT_ANGLE = 300 # 210
 WHEEL_BACK_ANGLE = 180 # 0
 
-# Defaultly: 1
+# Default: 1
 TASK_NUMBER = 1
 
 # Printing message first sentence
@@ -193,7 +196,7 @@ if __name__ == '__main__':
                 elif (gameLogic.next_task == CALIBRATE_BASKET):
                         if (gameLogic.status_basket == BASKET_ON_THE_CENTER):
                                 gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
-                                gameLogic.next_task = FINISH_EVERYTHING
+                                gameLogic.next_task = RECALIBRATE_BASKET_AND_BALL
                         elif (gameLogic.status_basket == BASKET_ON_THE_LEFT):
                                 print("BASKET on the LEFT. -> circle to the right")
                                 gameLogic.speed_pub.publish(circle_right(6))
@@ -203,9 +206,25 @@ if __name__ == '__main__':
                         elif (gameLogic.status_basket == BASKET_UNKNOWN):
                                 print("BASKET UNKNOWN ********* BASKET UNKNOWN ********* BASKET UNKNOWN ********* BASKET UNKNOWN ")
                                 gameLogic.speed_pub.publish(circle_left(5))
-                # THIS MEANS EVERYTHING IS FINISHED FOR THES <SESSION>
-                elif (gameLogic.next_task == FINISH_EVERYTHING):
+                # Let's recalibrate a bit in order to throw the ball!
+                elif (gameLogic.next_task == RECALIBRATE_BASKET_AND_BALL):
                         gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
+                        if (abs(gameLogic.ball_x-gameLogic.basket_x)<PERM_DISTANCE):
+                                # GO THROUGH THE ROBOT!
+                                gameLogic.speed_pub.publish(MoveSpeed(ROBOT_SPEED, (-1) * ROBOT_SPEED, 0, 1200))
+                        else:
+                                if (gameLogic.basket_x-gameLogic.ball_x > 0):
+                                    # move a little bit to the right
+                                    left_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 0, WHEEL_LEFT_ANGLE), 2)
+                                    right_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 0, WHEEL_RIGHT_ANGLE), 2)
+                                    back_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 0, WHEEL_BACK_ANGLE), 2)
+                                    gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
+                                elif(gameLogic.ball_x-gameLogic.basket_x > 0):
+                                    # move a little bit to the left
+                                    left_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 180, WHEEL_LEFT_ANGLE), 2)
+                                    right_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 180, WHEEL_RIGHT_ANGLE), 2)
+                                    back_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 180, WHEEL_BACK_ANGLE), 2)
+                                    gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
             rate.sleep()
             '''elif (TASK_NUMBER == 2):
                 if (gameLogic.status != BALL_UNKNOWN):

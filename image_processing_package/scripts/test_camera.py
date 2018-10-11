@@ -20,7 +20,7 @@ class RealsenseProcessing():
         self.regular_image = None
         self.yuv = None
         self.hsv = None
-	self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
+        self.publisher = rospy.Publisher("ball_coordinates", BallPoint, queue_size=10)
         self.publisher_basket = rospy.Publisher("basket_coordinates", BasketPoint, queue_size=10)
 
     def run(self):
@@ -47,10 +47,10 @@ class RealsenseProcessing():
 
 def it_is_ball(x,y,w,h,contour_area):
     if (x<0 or y<0 or w<0 or h<0 or contour_area<0):
-	return False
+        return False
     ball_shape = round((float(min(w,h))/max(w,h))*100, 2) if (w>0 and h>0) else 0.0
     if (ball_shape < 60.0 or contour_area > 3000):
-	return False
+        return False
     return True
 
 
@@ -69,7 +69,8 @@ if __name__ == '__main__':
             res, mask, x, y, contour_area, w, h = detector.detect(camera_proc.hsv, camera_proc.regular_image)
             # code for calibrating basket:
             res_basket, mask_basket, x_basket, y_basket, contour_area_basket, w_basket, h_basket = detector_basket.detect(camera_proc.hsv, camera_proc.regular_image)
-            print("x coordinate - cx - BALL :", x)
+            PRINT_X_VALUES = "BALL  X=" + str(x) + " Y=" + str(y);
+            print(PRINT_X_VALUES)
             # BALL DETECTION.
             if (it_is_ball(x,y,w,h,contour_area)):
                 camera_proc.publisher.publish(BallPoint(x,y,0))
@@ -77,16 +78,16 @@ if __name__ == '__main__':
                     print(PRINT_SENTENCE + "BALL seen. YES centered.")
                 else:
                     print(PRINT_SENTENCE + "BALL seen. NO centered.")
-		if (400<y<460):
-		    print(PRINT_SENTENCE + "BALL is near-STOP!")
-		else:
-		    print(PRINT_SENTENCE + "BALL is far-GO!")
+                if (400<y<460):
+                    print(PRINT_SENTENCE + "BALL is near-STOP!")
+                else:
+                    print(PRINT_SENTENCE + "BALL is far-GO!")
             else:
-		print(PRINT_SENTENCE + "BALL NOT seen.")
-	    	camera_proc.publisher.publish(BallPoint(-1,-1,0))
+                print(PRINT_SENTENCE + "BALL NOT seen.")
+            camera_proc.publisher.publish(BallPoint(-1,-1,0))
             # BASKET DETECTION.
             camera_proc.publisher_basket.publish(BasketPoint(x_basket, y_basket, 0))
-	    print(PRINT_SENTENCE + "BASKET x=" + str(x_basket) + " y=" + str(y_basket) )
-	    rate.sleep()
+        print(PRINT_SENTENCE + "BASKET x=" + str(x_basket) + " y=" + str(y_basket) )
+        rate.sleep()
     except rospy.ROSInterruptException:
         pass
