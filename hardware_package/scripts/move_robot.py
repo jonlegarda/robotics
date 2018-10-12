@@ -1,14 +1,16 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 import rospy
 from hardware_package.communication_mainboard import ComportMainboard
 from general_package.msg import MoveSpeed
 
 class MainboardRunner():
+
     board = None
+
     def __init__(self):
-	rospy.init_node("connection_test", anonymous=True)
+        rospy.init_node("connection_test", anonymous=True)
         rospy.Subscriber("move_speed", MoveSpeed, self.callback)
-	self.board = ComportMainboard()
+        self.board = ComportMainboard()
 
     #def run(self):
         #rospy.init_node("comport_mainboad", anonymous=True)
@@ -34,12 +36,16 @@ class MainboardRunner():
     def run(self):
         self.board.run()
         rospy.spin()
+        rate = rospy.Rate(10)
+        '''while True:
+            self.board.write("d:1500\n")
+            rate.sleep()'''
         print("closing board")
         self.board.close()
 
     def callback(self, speeds):
         print(str(speeds))
-        self.set_dir(speeds.l, speeds.r, speeds.b, speeds.t, "d:"+str(speeds.t))
+        self.set_dir(speeds.l, speeds.r, speeds.b, speeds.t)
 
     def move_forward(self, speed):
         self.set_dir(speed, (-1) * speed, 0)
@@ -53,11 +59,9 @@ class MainboardRunner():
     def circle(self, speed):
         self.set_dir(0, 0, speed)
 
-    def set_dir(self, front_left, front_right, back, thrower=0):
-        self.board.write("sd:{}:{}:{}:{}".format(front_left, front_right, back, thrower))
-        self.board.write(thrower)
-    #def set_thrower():
-	#self.board.write("d:1500")
+    def set_dir(self, front_left, front_right, back, thrower=1200):
+        self.board.write("sd:{}:{}:{}:{}\n".format(front_left, front_right, back, thrower))
+        self.board.write("d:"+str(thrower)+"\n")
 
     def get_dir(self):
         self.board.write('gs')
@@ -67,10 +71,8 @@ if __name__ == '__main__':
     try:
         mainboard_runner = MainboardRunner()
         mainboard_runner.run()
-        #mainboard_runner.move_forward(10)
-	    #mainboard_runner.set_dir(10,-10,0)
-	    rate = rospy.Rate(2)
+        '''rate = rospy.Rate(10)
         while rospy.is_shutdown():
-            rate.sleep()
+            rate.sleep()'''
     except rospy.ROSInterruptException:
         pass
