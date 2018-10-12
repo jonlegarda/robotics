@@ -154,7 +154,7 @@ def calculate_robot_angle(x):
 if __name__ == '__main__':
     try:
             gameLogic = GameLogic()
-            rate = rospy.Rate(10)
+            rate = rospy.Rate(5)
             i = 0
             while not rospy.is_shutdown():
                     i = i+1

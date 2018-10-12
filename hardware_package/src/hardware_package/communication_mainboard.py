@@ -37,11 +37,26 @@ class ComportMainboard(threading.Thread):
         if self.connection is not None:
             try:
                 self.connection.write(comm + '\n')
-                c = ''
+                '''c = ''
                 while c != '\n':
-                    c = self.connection.read()
+                    c = self.connection.read()'''
             except:
                 print('mainboard: err write ' + comm)
+
+    def read(self):
+        c = ''
+        while c != '\n':
+            c = self.connection.read()
+
+    '''def write_thrower(self, comm):
+        if self.connection2 is not None:
+            try:
+                self.connection2.write(comm + '\n')
+                d = ''
+                while d != '\n':
+                    d = self.connection2.read()
+            except:
+                print('mainboard err write thrower ' + comm)'''
 
     def servo(self, value):
         msg = "v{}".format(value)
