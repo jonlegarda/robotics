@@ -65,8 +65,13 @@ class MainboardRunner():
 
     def set_dir(self, front_left, front_right, back, thrower=0):
         self.board.write("sd:{}:{}:{}:{}\n".format(front_left, front_right, back, 0))
-        self.board.write("d:1800\n")
         self.board.read()
+        if thrower > 0:
+            print(" *********** if ********* ")
+            self.board.write("d:1650\n")
+        else:
+            print(" *********** else ********* ")
+            self.board.write("d:600\n")
 
     def get_dir(self):
         self.board.write('gs')

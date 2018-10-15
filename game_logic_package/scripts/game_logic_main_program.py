@@ -11,18 +11,18 @@ from general_package.msg import MoveSpeed
 #  Ball & Basket global parameters position in a frame (maximum and minimum)
 LEFT_BOUND = 0
 RIGHT_BOUND = 640
-CENTER_POINT = 395
+CENTER_POINT = 355
 HEIGHT = 480;
 
 # Ball parameters
-BALL_LARGE = 15
+BALL_LARGE = 20
 LEFT_PERMITTED_FOR_BALL = CENTER_POINT - BALL_LARGE
 RIGHT_PERMITTED_FOR_BALL = CENTER_POINT + BALL_LARGE
 
-PERM_DISTANCE = 8;
+PERM_DISTANCE = 6;
 
 # Basket parameters
-BASKET_LARGE = 10
+BASKET_LARGE = 30
 LEFT_PERMITTED_FOR_BASKET = CENTER_POINT - BASKET_LARGE
 RIGHT_PERMITTED_FOR_BASKET = CENTER_POINT + BASKET_LARGE
 
@@ -49,11 +49,11 @@ BALL_FAR = "ball is far away"
 BALL_DISTANCE_UNKNOWN = "ball is in an unknown position"
 
 # Ball close distance
-BALL_DISTANCE_PERMITTED = 440
+BALL_DISTANCE_PERMITTED = 430
 
 # Robot default speed
 ROBOT_SPEED = 8
-ROBOT_SPEED_REDUCED = 3
+ROBOT_SPEED_REDUCED = 4
 
 # Robot must stop inmediatelly.
 BALL_CALIBRATED_YES = "Robot is perfectly calibrated."
@@ -137,7 +137,7 @@ def move_backwards(speed):
     return MoveSpeed((-1)*speed, speed, 0, 0)
 
 def rotate(speed):
-    return MoveSpeed(speed, speed, speed, 10)
+    return MoveSpeed(speed, speed, speed, 0)
 
 def circle_left(speed):
     return MoveSpeed(0, 0, speed, 0)
@@ -212,6 +212,7 @@ if __name__ == '__main__':
                                     gameLogic.speed_pub.publish(MoveSpeed(0,0,0,0))
                                     if (abs(gameLogic.ball_x-gameLogic.basket_x)<=PERM_DISTANCE):
                                             # GO THROUGH THE ROBOT!
+                                            print("******* BALL=" + str(gameLogic.ball_x) + " . BASKET= " + str(gameLogic.basket_x) + " ******** ")
                                             gameLogic.next_task = THROW_BALL
                                     else:
                                             if (gameLogic.basket_x-gameLogic.ball_x > 0):
@@ -227,7 +228,7 @@ if __name__ == '__main__':
                                                 back_wheel = round(calculate_speed(ROBOT_SPEED_REDUCED, 0, WHEEL_BACK_ANGLE), 2)
                                                 gameLogic.speed_pub.publish(MoveSpeed(left_wheel, right_wheel, back_wheel, 0))
                             elif (gameLogic.next_task == THROW_BALL):
-                                    gameLogic.speed_pub.publish(MoveSpeed(ROBOT_SPEED, (-1) * ROBOT_SPEED, 0, 1200))
+                                    gameLogic.speed_pub.publish(MoveSpeed(ROBOT_SPEED, (-1) * ROBOT_SPEED, 0, 1650))
                     rate.sleep()
                     '''elif (TASK_NUMBER == 2):
                         if (gameLogic.status != BALL_UNKNOWN):
