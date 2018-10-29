@@ -4,9 +4,6 @@ import time
 import subprocess
 import rospy
 
-FIELD_ID = "A"
-ROBOT_ID = "A"
-
 class ComportMainboard(threading.Thread):
 
     connection = None
