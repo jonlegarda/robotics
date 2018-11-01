@@ -83,3 +83,8 @@ class ComportMainboard(threading.Thread):
             print('mainboard: opening failed')
             self.close()
             return
+
+    def readLine(self):
+        if self.connection_opened:
+            self.connection.flush()
+            return self.connection.readline()

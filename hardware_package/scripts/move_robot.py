@@ -55,15 +55,15 @@ class MainboardRunner():
         else:
             self.board.write("d:600\n")
         # Not sure if this will work.
-        return self.board.read_line()
+        return self.board.readLine()
 
     def get_dir(self):
         self.board.write('gs')
-        return self.board.readline()
+        return self.board.readLine()
 
     # referee commands task.
     def referee_commands(self):
-        line = self.board.read_line()
+        line = self.board.readLine()
         print("Referee Commands - read line: " + line)
         if line and line.startswith("<ref:a") and line[6] == FIELD_ID and (line[7] == ROBOT_ID or line[7] == "X"):
             print("Referee Command --> " + line)
@@ -74,7 +74,7 @@ class MainboardRunner():
                 self.set_dir(0, 0, 0)
             elif not line.startswith("PING", 8):
                 return
-            if line[7] == ROBOT_ID:  # ACK should only be sent if robot was messaged individually
+            if line[7] == ROBOT_ID:
                 self.board.write("rf:a{}{}ACK-----".format(FIELD_ID, ROBOT_ID))
 
 if __name__ == '__main__':
