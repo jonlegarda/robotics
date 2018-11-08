@@ -10,7 +10,7 @@ ROBOT_ID = "A"
 
 class MainboardRunner():
 
-    board = None
+    #board = None
 
     def __init__(self):
         rospy.init_node("connection_test", anonymous=True)
@@ -21,7 +21,7 @@ class MainboardRunner():
     def run(self):
         self.board.run()
         rospy.spin()
-        rate = rospy.Rate(8)
+        rate = rospy.Rate(60)
         while not rospy.is_shutdown():
             self.referee_commands()
             rate.sleep()
@@ -65,14 +65,14 @@ class MainboardRunner():
     def referee_commands(self):
         line = self.board.readLine()
         print("Referee Commands - read line: " + line)
-        if line and line.startswith("<ref:a") and line[6] == FIELD_ID and (line[7] == ROBOT_ID or line[7] == "X"):
+        if line and line.startswith("<rf:a") and line[5] == FIELD_ID and (line[6] == ROBOT_ID or line[6] == "X"):
             print("Referee Command --> " + line)
-            if line.startswith("START", 8):
-                self.running = True
-            elif line.startswith("STOP", 8):
-                self.running = False
+            if line.startswith("START", 7):
+                self.robot_running = True
+            elif line.startswith("STOP", 7):
+                self.robot_running = False
                 self.set_dir(0, 0, 0)
-            elif not line.startswith("PING", 8):
+            elif not line.startswith("PING", 7):
                 return
             if line[7] == ROBOT_ID:
                 self.board.write("rf:a{}{}ACK-----".format(FIELD_ID, ROBOT_ID))
