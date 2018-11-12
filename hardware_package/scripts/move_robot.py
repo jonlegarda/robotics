@@ -55,7 +55,7 @@ class MainboardRunner():
         else:
             self.board.write("d:600\n")
         # Not sure if this will work.
-        return self.board.readLine()
+        #return self.board.readLine()
 
     def get_dir(self):
         self.board.write('gs')
