@@ -131,13 +131,13 @@ class GameLogic():
                     #print("game_logic_package_main -> BASKET. Where is the fucking basket?")
 
 def move_forward(speed):
-    return MoveSpeed(speed, (-1) * speed, 0, 0)
+    return MoveSpeed((-1)*speed, (1) * speed, 0, 0)
 
 def move_backwards(speed):
-    return MoveSpeed((-1)*speed, speed, 0, 0)
+    return MoveSpeed((1)*speed, (-1)*speed, 0, 0)
 
 def rotate(speed):
-    return MoveSpeed(speed, speed, speed, 0)
+    return MoveSpeed((-1)*speed, (-1)*speed, (-1)*speed, 0)
 
 def circle_left(speed):
     return MoveSpeed(0, 0, speed, 0)
