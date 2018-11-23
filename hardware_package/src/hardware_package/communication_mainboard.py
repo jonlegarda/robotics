@@ -37,9 +37,9 @@ class ComportMainboard(threading.Thread):
         if self.connection is not None:
             try:
                 self.connection.write(comm + '\n')
-                '''c = ''
+                c = ''
                 while c != '\n':
-                    c = self.connection.read()'''
+                    c = self.connection.read()
             except:
                 print('mainboard: err write ' + comm)
 
@@ -87,4 +87,7 @@ class ComportMainboard(threading.Thread):
     def readLine(self):
         if self.connection_opened:
             self.connection.flush()
-            return self.connection.readline()
+            response = self.connection.readline()
+            print("readLine {}".format(response))
+
+            return response

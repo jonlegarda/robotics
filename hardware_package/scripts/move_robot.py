@@ -19,8 +19,9 @@ class MainboardRunner():
         self.robot_running = True
 
     def run(self):
+        print("Started")
         self.board.run()
-        rospy.spin()
+        #rospy.spin()
         rate = rospy.Rate(60)
         while not rospy.is_shutdown():
             self.referee_commands()
@@ -63,18 +64,19 @@ class MainboardRunner():
 
     # referee commands task.
     def referee_commands(self):
+        print("ref_cmd")
         line = self.board.readLine()
         print("Referee Commands - read line: " + line)
-        if line and line.startswith("<rf:a") and line[5] == FIELD_ID and (line[6] == ROBOT_ID or line[6] == "X"):
+        if line and line.startswith("<ref:a") and line[6] == FIELD_ID and (line[7] == ROBOT_ID or line[7] == "X"):
             print("Referee Command --> " + line)
-            if line.startswith("START", 7):
+            if line.startswith("START", 8):
                 self.robot_running = True
-            elif line.startswith("STOP", 7):
+            elif line.startswith("STOP", 8):
                 self.robot_running = False
                 self.set_dir(0, 0, 0)
-            elif not line.startswith("PING", 7):
+            elif not line.startswith("PING", 8):
                 return
-            if line[7] == ROBOT_ID:
+            if line[8] == ROBOT_ID:
                 self.board.write("rf:a{}{}ACK-----".format(FIELD_ID, ROBOT_ID))
 
 if __name__ == '__main__':
