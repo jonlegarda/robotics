@@ -10,7 +10,7 @@ ROBOT_ID = "A"
 
 class MainboardRunner():
 
-    #board = None
+    board = None
 
     def __init__(self):
         rospy.init_node("connection_test", anonymous=True)
@@ -21,8 +21,8 @@ class MainboardRunner():
     def run(self):
         print("Started")
         self.board.run()
-        #rospy.spin()
-        rate = rospy.Rate(60)
+        rospy.spin()
+        rate = rospy.Rate()
         while not rospy.is_shutdown():
             self.referee_commands()
             rate.sleep()
@@ -49,8 +49,8 @@ class MainboardRunner():
     # Until this part...............
 
     def set_dir(self, front_left, front_right, back, thrower=0):
-        self.board.write("sd:{}:{}:{}:{}\n".format(front_left, front_right, back, 0))
-        self.board.read()
+        self.board.write("sd:{}:{}:{}\n".format(front_left, front_right, back))
+        # self.board.read()
         if thrower > 0:
             self.board.write("d:1650\n")
         else:

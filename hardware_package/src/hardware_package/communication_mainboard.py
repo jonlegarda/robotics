@@ -48,7 +48,7 @@ class ComportMainboard(threading.Thread):
         while c != '\n':
             c = self.connection.read()
 
-    '''def write_thrower(self, comm):
+    def write_thrower(self, comm):
         if self.connection2 is not None:
             try:
                 self.connection2.write(comm + '\n')
@@ -56,7 +56,7 @@ class ComportMainboard(threading.Thread):
                 while d != '\n':
                     d = self.connection2.read()
             except:
-                print('mainboard err write thrower ' + comm)'''
+                print('mainboard err write thrower ' + comm)
 
     def servo(self, value):
         msg = "v{}".format(value)
