@@ -8,9 +8,16 @@ FIELD_ID = "A"
 # robot id for referee commands.
 ROBOT_ID = "A"
 
+THROWER_NOT_RUNNING_SPEED = 1000
+
 class MainboardRunner():
 
     board = None
+
+    front_left_speed = 0
+    front_right_speed = 0
+    back_speed = 0
+    thrower_speed = THROWER_NOT_RUNNING_SPEED
 
     def __init__(self):
         rospy.init_node("connection_test", anonymous=True)
@@ -21,46 +28,27 @@ class MainboardRunner():
     def run(self):
         print("Started")
         self.board.run()
-        rospy.spin()
-        rate = rospy.Rate()
+        #rospy.spin()
+        rate = rospy.Rate(30)
         while not rospy.is_shutdown():
-            self.referee_commands()
+            self.send_speeds_to_mainboard()
+            self.board.read()
+
             rate.sleep()
         self.board.close()
         print("board is closing...")
 
+    def send_speeds_to_mainboard(self):
+        self.board.write("d:{}\n".format(self.thrower_speed))
+        self.board.write("sd:{}:{}:{}\n".format( self.front_right_speed, self.back_speed, self.front_left_speed))
+
     def callback(self, speeds):
         if self.robot_running:
             print(str(speeds))
-            self.set_dir(speeds.l, speeds.r, speeds.b, speeds.t)
-
-    # This piece of code is surely not being used in the code. Not sure, so we will leave it this time. Needs to be erase if it is unused...........
-    def move_forward(self, speed):
-        self.set_dir(speed, (-1) * speed, 0)
-
-    def move_backwards(self, speed):
-        self.set_dir((-1)*speed, speed, 0)
-
-    def rotate(self, speed):
-        self.set_dir(speed, speed, speed)
-
-    def circle(self, speed):
-        self.set_dir(0, 0, speed)
-    # Until this part...............
-
-    def set_dir(self, front_left, front_right, back, thrower=0):
-        self.board.write("sd:{}:{}:{}\n".format(front_left, front_right, back))
-        # self.board.read()
-        if thrower > 0:
-            self.board.write("d:1650\n")
-        else:
-            self.board.write("d:600\n")
-        # Not sure if this will work.
-        #return self.board.readLine()
-
-    def get_dir(self):
-        self.board.write('gs')
-        return self.board.readLine()
+            self.front_left_speed = speeds.l
+            self.front_right_speed = speeds.r
+            self.back_speed = speeds.b
+            self.thrower_speed = speeds.t
 
     # referee commands task.
     def referee_commands(self):
@@ -73,11 +61,14 @@ class MainboardRunner():
                 self.robot_running = True
             elif line.startswith("STOP", 8):
                 self.robot_running = False
-                self.set_dir(0, 0, 0)
+                self.front_left_speed = 0
+                self.front_right_speed = 0
+                self.back_speed = 0
+                self.thrower_speed = THROWER_NOT_RUNNING_SPEED
             elif not line.startswith("PING", 8):
                 return
             if line[8] == ROBOT_ID:
-                self.board.write("rf:a{}{}ACK-----".format(FIELD_ID, ROBOT_ID))
+                self.board.write("ref:a{}{}ACK------\n".format(FIELD_ID, ROBOT_ID))
 
 if __name__ == '__main__':
     try:

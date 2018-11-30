@@ -34,41 +34,33 @@ class ComportMainboard(threading.Thread):
         return self.connection_opened
 
     def write(self, comm):
-        if self.connection is not None:
+        if self.connection is not None and self.connection.is_open:
             try:
-                self.connection.write(comm + '\n')
-                c = ''
-                while c != '\n':
-                    c = self.connection.read()
-            except:
+                self.connection.write(comm)
+                # c = ''
+                # while c != '\n':
+                #     c = self.connection.read()
+            except Exception as e:
                 print('mainboard: err write ' + comm)
+                print(e)
+
+    # def read(self):
+    #     c = ""
+    #     while not rospy.is_shutdown():
+    #         ch = self.connection.read()
+    #         if ch == '\n':
+    #             break
+    #         c = c + ch
+    #         print(c)
+    #         return c
 
     def read(self):
-        c = ''
-        while c != '\n':
-            c = self.connection.read()
-
-    def write_thrower(self, comm):
-        if self.connection2 is not None:
-            try:
-                self.connection2.write(comm + '\n')
-                d = ''
-                while d != '\n':
-                    d = self.connection2.read()
-            except:
-                print('mainboard err write thrower ' + comm)
-
-    def servo(self, value):
-        msg = "v{}".format(value)
-        if self.connection_opened:
-            self.write(msg)
-
-    def launch_motor(self, value):
-        if self.connection_opened:
-            self.write("d{}".format(value))
+        if self.connection is not None and self.connection.is_open:
+            while self.connection.in_waiting > 0:
+                self.connection.read()
 
     def close(self):
-        if self.connection is not None and self.connection.isOpen():  # close coil
+        if self.connection is not None and self.connection.is_open:  # close coil
             try:
                 self.connection.close()
                 print('mainboard: connection closed')
@@ -86,7 +78,7 @@ class ComportMainboard(threading.Thread):
 
     def readLine(self):
         if self.connection_opened:
-            self.connection.flush()
+            #self.connection.flush()
             response = self.connection.readline()
             print("readLine {}".format(response))
 
