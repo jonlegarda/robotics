@@ -19,6 +19,9 @@ class MainboardRunner():
     back_speed = 0
     thrower_speed = THROWER_NOT_RUNNING_SPEED
 
+    no_speed_received_count = 0
+    no_speed_received_count_limit = 5
+
     def __init__(self):
         rospy.init_node("connection_test", anonymous=True)
         rospy.Subscriber("move_speed", MoveSpeed, self.callback)
@@ -34,6 +37,16 @@ class MainboardRunner():
             self.send_speeds_to_mainboard()
             self.board.read()
 
+            self.no_speed_received_count += 1
+
+            if self.no_speed_received_count > self.no_speed_received_count_limit:
+                self.no_speed_received_count = self.no_speed_received_count_limit
+
+                self.front_left_speed = 0
+                self.front_right_speed = 0
+                self.back_speed = 0
+                self.thrower_speed = THROWER_NOT_RUNNING_SPEED
+
             rate.sleep()
         self.board.close()
         print("board is closing...")
@@ -43,6 +56,8 @@ class MainboardRunner():
         self.board.write("sd:{}:{}:{}\n".format( self.front_right_speed, self.back_speed, self.front_left_speed))
 
     def callback(self, speeds):
+        self.no_speed_received_count = 0
+
         if self.robot_running:
             print(str(speeds))
             self.front_left_speed = speeds.l
